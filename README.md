@@ -30,14 +30,6 @@ The mimic video is a short-run custom policy attempt trained on a generated HU D
 - `tools/render_policy.sh` – renders a trained policy checkpoint.
 - `assets/videos/` – MP4 demo videos displayed in this README.
 
-## What was intentionally removed
-
-- Sample runtime repository copies.
-- Pretrained sample checkpoints such as dance, jump, or locomotion weights.
-- Assignment-specific logs, screenshots, PDFs, and phase notebooks.
-- Large temporary training videos outside `assets/videos/`.
-- Temporary Colab outputs and local training outputs.
-
 ## Motion sequence
 
 The clean custom motion is:
