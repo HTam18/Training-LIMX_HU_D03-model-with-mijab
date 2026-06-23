@@ -1,0 +1,27 @@
+# HU D03 Custom Mimic Colab Cells
+
+# Cell 1: Mount Drive and prepare runtime
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Cell 2: Clone your clean repository
+# Replace this URL after uploading the repository to GitHub.
+!git clone https://github.com/YOUR_NAME/YOUR_REPO.git /content/hud03_mimic
+
+# Cell 3: Install dependencies
+%cd /content/hud03_mimic/mjlab
+!uv sync
+
+# Cell 4: Generate FK-consistent motion
+!uv run python ../tools/generate_stand_dab_loop_motion.py   --output ../motions/hud03_stand_dab_loop.npz   --mapping ../outputs/hud03_stand_dab_loop_mapping.csv   --gate ../outputs/hud03_motion_gate.json
+
+# Cell 5: Train custom mimic policy
+%env MUJOCO_GL=disable
+%env HUD03_EASY_MIMIC=1
+%env HUD03_DAB_STRICT=1
+!HUD03_NUM_ENVS=256 HUD03_MAX_ITERATIONS=2000 ../tools/train_mimic.sh
+
+# Cell 6: Render a trained policy
+# Replace the checkpoint path with the latest model produced in outputs/train.
+%env MUJOCO_GL=egl
+!../tools/render_policy.sh outputs/train/limx_hud03_mimic_tracking/RUN_NAME/model_1999.pt
